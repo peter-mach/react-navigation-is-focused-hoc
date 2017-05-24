@@ -2,19 +2,20 @@
 
 # react-navigation-is-focused-hoc [![npm version](https://badge.fury.io/js/react-navigation-is-focused-hoc.svg)](https://badge.fury.io/js/react-navigation-is-focused-hoc)
 
-## Welcome React Navigation user seeking to focus 😀
+## Welcome React Navigation user seeking focus 😀
 
 This is a quick, ready to use solution using HOC to expose `props.isFocused`. **No Redux needed**
 
 ## Installation
 
-Install the latest version of react-navigation from npm
+1. Install the latest version of `react-navigation`
+2. Install the latest version of `react-navigation-is-focused-hoc` from npm
 ```
-yarn add react-navigation
+yarn add react-navigation-is-focused-hoc
 ```
 or
 ```
-npm install --save react-navigation
+npm install --save react-navigation-is-focused-hoc
 ```
 
 ## Full Usage Example
