@@ -6,6 +6,17 @@
 
 This is a quick, ready to use solution using HOC to expose `props.isFocused`. **No Redux needed**
 
+## Installation
+
+Install the latest version of react-navigation from npm
+```
+yarn add react-navigation
+```
+or
+```
+npm install --save react-navigation
+```
+
 ## Full Usage Example
 
 To see more of the `react-navigation-is-focused-hoc` in action, you can check out the source in [ExampleNavigation](https://github.com/pmachowski/react-navigation-is-focused-hoc/tree/master/ExampleNavigation) folder.
