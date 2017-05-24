@@ -1,0 +1,28 @@
+{
+  "name": "react-navigation-is-focused-hoc",
+  "version": "1.0.0",
+  "description": "Ready to use solution using HOC to expose props.isFocused for react-navigation. No Redux needed.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmachowski/react-navigation-is-focused-hoc.git"
+  },
+  "keywords": [
+    "react-navigation",
+    "hoc",
+    "isFocused",
+    "react-native",
+    "navigation"
+  ],
+  "author": "Peter Machowski <peter@devnavy.com (http://devnavy.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pmachowski/react-navigation-is-focused-hoc/issues"
+  },
+  "homepage": "https://github.com/pmachowski/react-navigation-is-focused-hoc#readme",
+  "dependencies": {
+    "react-navigation": "^1.0.0-beta.11"
+  }
+}
