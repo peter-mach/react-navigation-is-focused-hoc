@@ -1,6 +1,6 @@
 ![Please Star](http://pmachowski.github.io/ghh/images/please_star_project.jpg)
 
-# react-navigation-is-focused-hoc [![npm version](https://badge.fury.io/js/react-navigation-is-focused-hoc.svg)](http://badge.fury.io/js/react-navigation-is-focused-hoc)
+# react-navigation-is-focused-hoc [![npm version](https://badge.fury.io/js/react-navigation-is-focused-hoc.svg)](https://badge.fury.io/js/react-navigation-is-focused-hoc)
 
 ## Welcome React Navigation user seeking to focus 😀
 
