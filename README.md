@@ -86,6 +86,7 @@ Or with ES7 decorators:
 export default class MyScreenView extends React.Component {
   // ...
 }
+```
 
 
 ------------
