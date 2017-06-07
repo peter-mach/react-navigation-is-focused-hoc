@@ -2,7 +2,7 @@
 
 # react-navigation-is-focused-hoc [![npm version](https://badge.fury.io/js/react-navigation-is-focused-hoc.svg)](https://badge.fury.io/js/react-navigation-is-focused-hoc)
 
-## Welcome React Navigation user seeking focus 😀
+## Welcome React Navigation user seeking focus 
 
 This is a quick, ready to use solution using HOC to expose `props.isFocused`. **No Redux needed**
 
@@ -78,6 +78,14 @@ class MyScreenView extends React.Component {
 
 // second argument is the route name specified during StackNavigator initialization.
 export default withNavigationFocus(MyScreenView, 'MyScreenView')
+```
+
+Or with ES7 decorators:
+```javascript
+@withNavigationFocus('MyScreenView')
+export default class MyScreenView extends React.Component {
+  // ...
+}
 ```
 
 
