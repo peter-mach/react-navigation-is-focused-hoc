@@ -1,67 +1,75 @@
-import React from 'react'
+import React from 'react';
 
 // subscribed components update functions
-let subscribedComponents = []
+let subscribedComponents = [];
 
 
 function _getCurrentRouteName(navigationState) {
-  if (!navigationState) return null
-  const route = navigationState.routes[navigationState.index]
-  if (route.routes) return _getCurrentRouteName(route)
-  return route.routeName
+    if (!navigationState) return null;
+    const route = navigationState.routes[navigationState.index];
+    if (route.routes) return _getCurrentRouteName(route);
+    return route.routeName;
 }
 
 function updateFocus(currentState) {
-  const currentRoute = _getCurrentRouteName(currentState)
-  subscribedComponents.forEach((f) => f(currentRoute))
+    const currentRoute = _getCurrentRouteName(currentState);
+    subscribedComponents.forEach((f) => f(currentRoute));
 }
 
-function withNavigationFocus(WrappedComponent, screenName) {
-
-  return class extends React.Component {
-    static navigationOptions = (props) => {
-      if (typeof WrappedComponent.navigationOptions === 'function') {
-        return WrappedComponent.navigationOptions(props)
-      }
-      return { ...WrappedComponent.navigationOptions }
+function withNavigationFocus(WrappedComponent, screenName = null) {
+    if (typeof WrappedComponent === 'string') {
+        screenName = WrappedComponent;
+        return (WrappedComponent) => _bind(WrappedComponent, screenName);
+    } else {
+        return _bind(WrappedComponent, screenName);
     }
+}
 
-    constructor(props) {
-      super(props)
-      this.state = {
-        isFocused: true
-      }
-    }
+function _bind(WrappedComponent, screenName) {
+    return class extends React.Component {
+        static navigationOptions = (props) => {
+            if (typeof WrappedComponent.navigationOptions === 'function') {
+                return WrappedComponent.navigationOptions(props);
+            }
+            return {...WrappedComponent.navigationOptions};
+        };
 
-    componentDidMount() {
-      subscribedComponents.push(this._handleNavigationChange)
-    }
-
-    componentWillUnmount() {
-      for (var i = 0; i < subscribedComponents.length; i++) {
-        if (subscribedComponents[i] === this._handleNavigationChange) {
-          subscribedComponents.splice(i, 1)
-          break
+        constructor(props) {
+            super(props);
+            this.state = {
+                isFocused: true
+            }
         }
-      }
-    }
 
-    _handleNavigationChange = (routeName) => {
-      // update state only when isFocused changes
-      if (this.state.isFocused !== (screenName === routeName)) {
-        this.setState({
-          isFocused: screenName === routeName
-        })
-      }
-    }
+        componentDidMount() {
+            subscribedComponents.push(this._handleNavigationChange);
+        }
 
-    render() {
-      return <WrappedComponent isFocused={this.state.isFocused} {...this.props} />
+        componentWillUnmount() {
+            for (let i = 0; i < subscribedComponents.length; i++) {
+                if (subscribedComponents[i] === this._handleNavigationChange) {
+                    subscribedComponents.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        _handleNavigationChange = (routeName) => {
+            // update state only when isFocused changes
+            if (this.state.isFocused !== (screenName === routeName)) {
+                this.setState({
+                    isFocused: screenName === routeName
+                })
+            }
+        };
+
+        render() {
+            return <WrappedComponent isFocused={this.state.isFocused} {...this.props} />
+        }
     }
-  }
 }
 
 module.exports = {
-  withNavigationFocus,
-  updateFocus,
-}
+    withNavigationFocus,
+    updateFocus
+};
