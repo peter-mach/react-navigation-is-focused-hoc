@@ -16,7 +16,7 @@ function updateFocus(currentState) {
   subscribedComponents.forEach((f) => f(currentRoute))
 }
 
-function withNavigationFocus(WrappedComponent, screenName) {
+function withNavigationFocus(WrappedComponent, screenName, isInitialRoute) {
 
   return class extends React.Component {
     static navigationOptions = (props) => {
@@ -29,7 +29,7 @@ function withNavigationFocus(WrappedComponent, screenName) {
     constructor(props) {
       super(props)
       this.state = {
-        isFocused: true
+        isFocused: !!isInitialRoute
       }
     }
 
