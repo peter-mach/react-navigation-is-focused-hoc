@@ -4,19 +4,19 @@ import React from 'react'
 let subscribedComponents = []
 
 
-function _getCurrentRouteName(navigationState) {
+function _getCurrentRouteKey(navigationState) {
   if (!navigationState) return null
   const route = navigationState.routes[navigationState.index]
-  if (route.routes) return _getCurrentRouteName(route)
-  return route.routeName
+  if (route.routes) return _getCurrentRouteKey(route)
+  return route.key
 }
 
 function updateFocus(currentState) {
-  const currentRoute = _getCurrentRouteName(currentState)
-  subscribedComponents.forEach((f) => f(currentRoute))
+  const currentRouteKey = _getCurrentRouteKey(currentState)
+  subscribedComponents.forEach((f) => f(currentRouteKey))
 }
 
-function withNavigationFocus(WrappedComponent, screenName) {
+function withNavigationFocus(WrappedComponent) {
 
   return class extends React.Component {
     static navigationOptions = (props) => {
@@ -46,11 +46,12 @@ function withNavigationFocus(WrappedComponent, screenName) {
       }
     }
 
-    _handleNavigationChange = (routeName) => {
+    _handleNavigationChange = (routeKey) => {
       // update state only when isFocused changes
-      if (this.state.isFocused !== (screenName === routeName)) {
+      const currentScreenKey = this.props.navigation.state.key;
+      if (this.state.isFocused !== (currentScreenKey === routeKey)) {
         this.setState({
-          isFocused: screenName === routeName
+          isFocused: currentScreenKey === routeKey
         })
       }
     }
