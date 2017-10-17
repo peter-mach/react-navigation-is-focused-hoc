@@ -56,6 +56,7 @@ export default class App extends React.Component {
 **myScreenView.js**
 ```javascript
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   View,
   Text,
@@ -63,6 +64,32 @@ import {
 import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
 
 class MyScreenView extends React.Component {
+
+  static propTypes = {
+    isFocused: PropTypes.bool,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isFocused && nextProps.isFocused) {
+      // screen enter
+    }
+    if (this.props.isFocused && !nextProps.isFocused) {
+      // screen exit
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.isFocused) {
+      return false;
+    }
+
+    if (!this.props.isFocused && nextProps.isFocused) {
+      // screen enter.
+      // Check here if some of your props changed since last enter
+      // if something changed: return true
+      // if not: return false
+    }
+  }
 
   render() {
     return (
@@ -77,7 +104,7 @@ class MyScreenView extends React.Component {
 }
 
 // second argument is the route name specified during StackNavigator initialization.
-export default withNavigationFocus(MyScreenView, 'MyScreenView')
+export default withNavigationFocus(MyScreenView)
 ```
 
 
