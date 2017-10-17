@@ -103,7 +103,6 @@ class MyScreenView extends React.Component {
   }
 }
 
-// second argument is the route name specified during StackNavigator initialization.
 export default withNavigationFocus(MyScreenView)
 ```
 
