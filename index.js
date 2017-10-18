@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // subscribed components update functions
-let subscribedComponents = []
+const subscribedComponents = []
 
 
 function getCurrentRouteKey(navigationState) {
