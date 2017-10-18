@@ -34,7 +34,8 @@ function withNavigationFocus(WrappedComponent) {
     constructor(props) {
       super(props)
       this.state = {
-        isFocused: true
+        isFocused: true,
+        focusedRouteKey: props.navigation.state.key,
       }
     }
 
@@ -56,13 +57,20 @@ function withNavigationFocus(WrappedComponent) {
       const currentScreenKey = this.props.navigation.state.key;
       if (this.state.isFocused !== (currentScreenKey === routeKey)) {
         this.setState({
-          isFocused: currentScreenKey === routeKey
+          isFocused: currentScreenKey === routeKey,
+          focusedRouteKey: routeKey
         })
       }
     }
 
     render() {
-      return <WrappedComponent isFocused={this.state.isFocused} {...this.props} />
+      return (
+        <WrappedComponent
+          isFocused={this.state.isFocused}
+          focusedRouteKey={this.state.focusedRouteKey}
+          {...this.props}
+        />
+      );
     }
   }
 }
