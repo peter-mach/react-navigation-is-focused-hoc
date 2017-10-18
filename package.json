@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Ready to use solution using HOC to expose props.isFocused for react-navigation. No Redux needed.",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pmachowski/react-navigation-is-focused-hoc.git"
@@ -23,6 +22,7 @@
   },
   "homepage": "https://github.com/pmachowski/react-navigation-is-focused-hoc#readme",
   "dependencies": {
+    "prop-types": "15.6.0",
     "react-navigation": "^1.0.0-beta.11"
   }
 }

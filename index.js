@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // subscribed components update functions
 let subscribedComponents = []
@@ -19,6 +20,10 @@ function updateFocus(currentState) {
 function withNavigationFocus(WrappedComponent) {
 
   return class extends React.Component {
+    static propTypes = {
+      navigation: PropTypes.object.isRequired
+    }
+
     static navigationOptions = (props) => {
       if (typeof WrappedComponent.navigationOptions === 'function') {
         return WrappedComponent.navigationOptions(props)
