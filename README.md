@@ -66,12 +66,13 @@ import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
 class MyScreenView extends React.Component {
 
   static propTypes = {
-    isFocused: PropTypes.bool,
+    isFocused: PropTypes.bool.isRequired,
+    focusedRouteKey: PropTypes.string.isRequired,
   };
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.isFocused && nextProps.isFocused) {
-      // screen enter
+      // screen enter (refresh data, update ui ...)
     }
     if (this.props.isFocused && !nextProps.isFocused) {
       // screen exit
@@ -79,19 +80,25 @@ class MyScreenView extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (!nextProps.isFocused) {
+    // Update only once after the screen disappears
+    if (this.props.isFocused && !nextProps.isFocused) {
+      return true;
+    }
+
+    // Don't update if the screen is not focused
+    if (!this.props.isFocused && !nextProps.isFocused) {
       return false;
     }
 
-    if (!this.props.isFocused && nextProps.isFocused) {
-      // screen enter.
-      // Check here if some of your props changed since last enter
-      // if something changed: return true
-      // if not: return false
-    }
+    // Update the screen if its re-enter
+    return !this.props.isFocused && nextProps.isFocused;
   }
 
   render() {
+    if (!this.props.isFocused /*&& this.props.focusedRouteKey.indexOf('Drawer') !== 0*/) {
+      return null;
+    }
+
     return (
       <View>
         {this.props.isFocused
