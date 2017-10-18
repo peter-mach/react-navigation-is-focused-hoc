@@ -4,15 +4,15 @@ import React from 'react'
 let subscribedComponents = []
 
 
-function _getCurrentRouteKey(navigationState) {
+function getCurrentRouteKey(navigationState) {
   if (!navigationState) return null
   const route = navigationState.routes[navigationState.index]
-  if (route.routes) return _getCurrentRouteKey(route)
+  if (route.routes) return getCurrentRouteKey(route)
   return route.key
 }
 
 function updateFocus(currentState) {
-  const currentRouteKey = _getCurrentRouteKey(currentState)
+  const currentRouteKey = getCurrentRouteKey(currentState)
   subscribedComponents.forEach((f) => f(currentRouteKey))
 }
 
@@ -63,6 +63,7 @@ function withNavigationFocus(WrappedComponent) {
 }
 
 module.exports = {
+  getCurrentRouteKey,
   withNavigationFocus,
   updateFocus,
 }
