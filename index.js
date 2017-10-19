@@ -55,7 +55,7 @@ function withNavigationFocus(WrappedComponent) {
     _handleNavigationChange = (routeKey) => {
       // update state only when isFocused changes
       const currentScreenKey = this.props.navigation.state.key;
-      if (currentScreenKey !== routeKey) {
+      if (this.state.isFocused !== (currentScreenKey === routeKey)) {
         this.setState({
           isFocused: currentScreenKey === routeKey,
           focusedRouteKey: routeKey
