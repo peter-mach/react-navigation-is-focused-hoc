@@ -28,7 +28,7 @@ To see more of the `react-navigation-is-focused-hoc` in action, you can check ou
 ```javascript
 import React from 'react'
 import { StackNavigator } from 'react-navigation'
-import { updateFocus } from 'react-navigation-is-focused-hoc'
+import { updateFocus, getCurrentRouteKey } from 'react-navigation-is-focused-hoc'
 
 import MyScreenView from './screens/myScreenView'
 
@@ -45,6 +45,14 @@ export default class App extends React.Component {
     return (
       <AppNavigator
         onNavigationStateChange={(prevState, currentState) => {
+          // If you want to ignore the state changed from `DrawerNavigator`, use this:
+          /*
+            if (/^Drawer(Open|Close|Toggle)$/.test(getCurrentRouteKey(newState)) === false) {
+              updateFocus(newState);
+              return;
+            }
+          */
+
           updateFocus(currentState)
         }}
       />
