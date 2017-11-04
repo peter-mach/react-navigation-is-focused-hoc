@@ -16,47 +16,48 @@ function updateFocus(currentState) {
   subscribedComponents.forEach((f) => f(currentRoute))
 }
 
-function withNavigationFocus(WrappedComponent, screenName) {
-
-  return class extends React.Component {
-    static navigationOptions = (props) => {
-      if (typeof WrappedComponent.navigationOptions === 'function') {
-        return WrappedComponent.navigationOptions(props)
+function withNavigationFocus(screenName) {
+  return function (WrappedComponent) {
+    return class extends React.Component {
+      static navigationOptions = (props) => {
+        if (typeof WrappedComponent.navigationOptions === 'function') {
+          return WrappedComponent.navigationOptions(props)
+        }
+        return { ...WrappedComponent.navigationOptions }
       }
-      return { ...WrappedComponent.navigationOptions }
-    }
 
-    constructor(props) {
-      super(props)
-      this.state = {
-        isFocused: true
-      }
-    }
-
-    componentDidMount() {
-      subscribedComponents.push(this._handleNavigationChange)
-    }
-
-    componentWillUnmount() {
-      for (var i = 0; i < subscribedComponents.length; i++) {
-        if (subscribedComponents[i] === this._handleNavigationChange) {
-          subscribedComponents.splice(i, 1)
-          break
+      constructor(props) {
+        super(props)
+        this.state = {
+          isFocused: true
         }
       }
-    }
 
-    _handleNavigationChange = (routeName) => {
-      // update state only when isFocused changes
-      if (this.state.isFocused !== (screenName === routeName)) {
-        this.setState({
-          isFocused: screenName === routeName
-        })
+      componentDidMount() {
+        subscribedComponents.push(this._handleNavigationChange)
       }
-    }
 
-    render() {
-      return <WrappedComponent isFocused={this.state.isFocused} {...this.props} />
+      componentWillUnmount() {
+        for (var i = 0; i < subscribedComponents.length; i++) {
+          if (subscribedComponents[i] === this._handleNavigationChange) {
+            subscribedComponents.splice(i, 1)
+            break
+          }
+        }
+      }
+
+      _handleNavigationChange = (routeName) => {
+        // update state only when isFocused changes
+        if (this.state.isFocused !== (screenName === routeName)) {
+          this.setState({
+            isFocused: screenName === routeName
+          })
+        }
+      }
+
+      render() {
+        return <WrappedComponent isFocused={this.state.isFocused} {...this.props} />
+      }
     }
   }
 }
