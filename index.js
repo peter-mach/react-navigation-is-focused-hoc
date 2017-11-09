@@ -19,7 +19,7 @@ function updateFocus(currentState) {
 
 function withNavigationFocus(WrappedComponent) {
 
-  return class extends React.Component {
+  class WithNavigationFocus extends React.Component {
     static propTypes = {
       navigation: PropTypes.object.isRequired
     }
@@ -73,6 +73,10 @@ function withNavigationFocus(WrappedComponent) {
       );
     }
   }
+  WithNavigationFocus.displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Component';
+
+  return WithNavigationFocus;
 }
 
 module.exports = {
