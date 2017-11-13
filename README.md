@@ -11,11 +11,11 @@ This is a quick, ready to use solution using HOC to expose `props.isFocused`. **
 1. Install the latest version of `react-navigation`
 2. Install the latest version of `react-navigation-is-focused-hoc` from npm
 ```
-yarn add patlux/react-navigation-is-focused-hoc
+yarn add @patwoz/react-navigation-is-focused-hoc
 ```
 or
 ```
-npm install --save patlux/react-navigation-is-focused-hoc
+npm install --save @patwoz/react-navigation-is-focused-hoc
 ```
 
 ## Full Usage Example

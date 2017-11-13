@@ -1,5 +1,5 @@
 {
-  "name": "react-navigation-is-focused-hoc",
+  "name": "@patwoz/react-navigation-is-focused-hoc",
   "version": "1.1.0",
   "description": "Ready to use solution using HOC to expose props.isFocused for react-navigation. No Redux needed.",
   "main": "index.js",
