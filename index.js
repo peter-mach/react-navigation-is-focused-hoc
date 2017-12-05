@@ -37,6 +37,7 @@ function withNavigationFocus(WrappedComponent) {
         isFocused: true,
         focusedRouteKey: props.navigation.state.key,
       }
+      this.isFocused = true
     }
 
     componentDidMount() {
@@ -55,11 +56,18 @@ function withNavigationFocus(WrappedComponent) {
     _handleNavigationChange = (routeKey) => {
       // update state only when isFocused changes
       const currentScreenKey = this.props.navigation.state.key;
-      if (this.state.isFocused !== (currentScreenKey === routeKey)) {
+
+      // when handling a navigation action that has nested actions, this method
+      // will be called twice or more. in this case, a later call may not see a
+      // change to this.state.isFocused even if this.setState already ran, since
+      // React batches updates. so we need to check a local variable that
+      // immediately reflects any changes.
+      if (this.isFocused !== (currentScreenKey === routeKey)) {
         this.setState({
-          isFocused: currentScreenKey === routeKey,
+          isFocused: !this.isFocused,
           focusedRouteKey: routeKey
         })
+        this.isFocused = !this.isFocused
       }
     }
 
