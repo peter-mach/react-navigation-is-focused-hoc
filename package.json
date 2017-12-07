@@ -3,7 +3,10 @@
   "version": "1.1.0",
   "description": "Ready to use solution using HOC to expose props.isFocused for react-navigation. No Redux needed.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "format-code": "prettier --write index.js",
+    "lint": "eslint index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/patlux/react-navigation-is-focused-hoc.git"
@@ -27,5 +30,14 @@
   "dependencies": {
     "prop-types": "15.6.0",
     "react-navigation": "^1.0.0-beta.11"
+  },
+  "devDependencies": {
+    "babel-eslint": "8.0.3",
+    "eslint": "4.12.1",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-prettier": "2.3.1",
+    "eslint-plugin-react": "7.5.1",
+    "eslint-plugin-react-native": "3.2.0",
+    "prettier": "1.9.1"
   }
 }
