@@ -85,8 +85,4 @@ function withNavigationFocus(WrappedComponent) {
   return WithNavigationFocus;
 }
 
-export default {
-  getCurrentRouteKey,
-  withNavigationFocus,
-  updateFocus,
-};
+export { getCurrentRouteKey, withNavigationFocus, updateFocus };
