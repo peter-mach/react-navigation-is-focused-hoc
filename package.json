@@ -1,7 +1,8 @@
 {
   "name": "@patwoz/react-navigation-is-focused-hoc",
-  "version": "1.1.0",
-  "description": "Ready to use solution using HOC to expose props.isFocused for react-navigation. No Redux needed.",
+  "version": "1.2.0",
+  "description":
+    "Ready to use solution using HOC to expose props.isFocused for react-navigation. No Redux needed.",
   "main": "index.js",
   "scripts": {
     "format-code": "prettier --write index.js",
@@ -11,17 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/patlux/react-navigation-is-focused-hoc.git"
   },
-  "keywords": [
-    "react-navigation",
-    "hoc",
-    "isFocused",
-    "react-native",
-    "navigation"
-  ],
+  "keywords": ["react-navigation", "hoc", "isFocused", "react-native", "navigation"],
   "author": "Peter Machowski <peter@devnavy.com (http://devnavy.com)",
-  "contributors": [
-    "Patrick Wozniak <email@patwoz.de> (https://patwoz.de/)"
-  ],
+  "contributors": ["Patrick Wozniak <email@patwoz.de> (https://patwoz.de/)"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/patlux/react-navigation-is-focused-hoc/issues"
