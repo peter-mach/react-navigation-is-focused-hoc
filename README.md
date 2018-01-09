@@ -1,6 +1,6 @@
 ![Please Star](http://pmachowski.github.io/ghh/images/please_star_project.jpg)
 
-# react-navigation-is-focused-hoc [![npm version](https://badge.fury.io/js/react-navigation-is-focused-hoc.svg)](https://badge.fury.io/js/react-navigation-is-focused-hoc)
+# react-navigation-is-focused-hoc [![npm version](https://badge.fury.io/js/%40patwoz%2Freact-navigation-is-focused-hoc.svg)](https://badge.fury.io/js/%40patwoz%2Freact-navigation-is-focused-hoc)
 
 ## Welcome React Navigation user seeking focus 😀
 
@@ -9,18 +9,18 @@ This is a quick, ready to use solution using HOC to expose `props.isFocused`. **
 ## Installation
 
 1. Install the latest version of `react-navigation`
-2. Install the latest version of `react-navigation-is-focused-hoc` from npm
+2. Install the latest version of `@patwoz/react-navigation-is-focused-hoc` from npm
 ```
-yarn add react-navigation-is-focused-hoc
+yarn add @patwoz/react-navigation-is-focused-hoc
 ```
 or
 ```
-npm install --save react-navigation-is-focused-hoc
+npm install --save @patwoz/react-navigation-is-focused-hoc
 ```
 
 ## Full Usage Example
 
-To see more of the `react-navigation-is-focused-hoc` in action, you can check out the source in [ExampleNavigation](https://github.com/pmachowski/react-navigation-is-focused-hoc/tree/master/ExampleNavigation) folder.
+To see more of the `react-navigation-is-focused-hoc` in action, you can check out the source in [ExampleNavigation](https://github.com/patlux/react-navigation-is-focused-hoc/tree/master/ExampleNavigation) folder.
 
 ## Usage
 
@@ -28,7 +28,7 @@ To see more of the `react-navigation-is-focused-hoc` in action, you can check ou
 ```javascript
 import React from 'react'
 import { StackNavigator } from 'react-navigation'
-import { updateFocus } from 'react-navigation-is-focused-hoc'
+import { updateFocus, getCurrentRouteKey } from '@patwoz/react-navigation-is-focused-hoc'
 
 import MyScreenView from './screens/myScreenView'
 
@@ -45,6 +45,14 @@ export default class App extends React.Component {
     return (
       <AppNavigator
         onNavigationStateChange={(prevState, currentState) => {
+          // If you want to ignore the state changed from `DrawerNavigator`, use this:
+          /*
+            if (/^Drawer(Open|Close|Toggle)$/.test(getCurrentRouteKey(newState)) === false) {
+              updateFocus(newState);
+              return;
+            }
+          */
+
           updateFocus(currentState)
         }}
       />
@@ -56,15 +64,49 @@ export default class App extends React.Component {
 **myScreenView.js**
 ```javascript
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   View,
   Text,
 } from 'react-native'
-import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
+import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 
 class MyScreenView extends React.Component {
 
+  static propTypes = {
+    isFocused: PropTypes.bool.isRequired,
+    focusedRouteKey: PropTypes.string.isRequired,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isFocused && nextProps.isFocused) {
+      // screen enter (refresh data, update ui ...)
+    }
+    if (this.props.isFocused && !nextProps.isFocused) {
+      // screen exit
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    // Update only once after the screen disappears
+    if (this.props.isFocused && !nextProps.isFocused) {
+      return true;
+    }
+
+    // Don't update if the screen is not focused
+    if (!this.props.isFocused && !nextProps.isFocused) {
+      return false;
+    }
+
+    // Update the screen if its re-enter
+    return !this.props.isFocused && nextProps.isFocused;
+  }
+
   render() {
+    if (!this.props.isFocused /*&& this.props.focusedRouteKey.indexOf('Drawer') !== 0*/) {
+      return null;
+    }
+
     return (
       <View>
         {this.props.isFocused
@@ -76,8 +118,7 @@ class MyScreenView extends React.Component {
   }
 }
 
-// second argument is the route name specified during StackNavigator initialization.
-export default withNavigationFocus(MyScreenView, 'MyScreenView')
+export default withNavigationFocus(MyScreenView)
 ```
 
 

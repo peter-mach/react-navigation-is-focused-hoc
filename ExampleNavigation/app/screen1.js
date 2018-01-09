@@ -5,7 +5,7 @@ import {
   Button,
 } from 'react-native';
 
-import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
+import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 
 import styles from './styles'
 
@@ -44,4 +44,4 @@ class Screen1 extends Component {
   }
 }
 
-export default withNavigationFocus(Screen1, 'Screen1')
+export default withNavigationFocus(Screen1)

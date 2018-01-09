@@ -5,8 +5,8 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation'
 
-// import update function from react-navigation-is-focused-hoc
-import { updateFocus } from 'react-navigation-is-focused-hoc'
+// import update function from @patwoz/react-navigation-is-focused-hoc
+import { updateFocus } from '@patwoz/react-navigation-is-focused-hoc'
 
 import styles from './styles'
 
