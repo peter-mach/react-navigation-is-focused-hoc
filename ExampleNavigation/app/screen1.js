@@ -44,4 +44,5 @@ class Screen1 extends Component {
   }
 }
 
-export default withNavigationFocus(Screen1, 'Screen1')
+// second argument is true because this isInitialRoute
+export default withNavigationFocus(Screen1, true)

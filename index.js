@@ -1,24 +1,30 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // subscribed components update functions
-let subscribedComponents = []
+const subscribedComponents = []
 
 
-function _getCurrentRouteName(navigationState) {
+function getCurrentRouteKey(navigationState) {
   if (!navigationState) return null
   const route = navigationState.routes[navigationState.index]
-  if (route.routes) return _getCurrentRouteName(route)
-  return route.routeName
+  if (route.routes) return getCurrentRouteKey(route)
+  return route.key
 }
 
 function updateFocus(currentState) {
-  const currentRoute = _getCurrentRouteName(currentState)
-  subscribedComponents.forEach((f) => f(currentRoute))
+  const currentRouteKey = getCurrentRouteKey(currentState)
+  subscribedComponents.forEach((f) => f(currentRouteKey))
 }
 
-function withNavigationFocus(WrappedComponent, screenName, isInitialRoute) {
+function withNavigationFocus(WrappedComponent, isInitialRoute) {
 
-  return class extends React.Component {
+  class WithNavigationFocus extends React.Component {
+
+    static propTypes = {
+      navigation: PropTypes.object.isRequired,
+    }
+
     static navigationOptions = (props) => {
       if (typeof WrappedComponent.navigationOptions === 'function') {
         return WrappedComponent.navigationOptions(props)
@@ -26,11 +32,9 @@ function withNavigationFocus(WrappedComponent, screenName, isInitialRoute) {
       return { ...WrappedComponent.navigationOptions }
     }
 
-    constructor(props) {
-      super(props)
-      this.state = {
-        isFocused: !!isInitialRoute
-      }
+    isFocused = !!isInitialRoute
+    state = {
+      isFocused: !!isInitialRoute
     }
 
     componentDidMount() {
@@ -46,22 +50,38 @@ function withNavigationFocus(WrappedComponent, screenName, isInitialRoute) {
       }
     }
 
-    _handleNavigationChange = (routeName) => {
+    _handleNavigationChange = (routeKey) => {
       // update state only when isFocused changes
-      if (this.state.isFocused !== (screenName === routeName)) {
+      const currentScreenKey = this.props.navigation.state.key;
+
+      // when handling a navigation action that has nested actions, this method
+      // will be called twice or more. in this case, a later call may not see a
+      // change to this.state.isFocused even if this.setState already ran, since
+      // React batches updates. so we need to check a local variable that
+      // immediately reflects any changes.
+      if (this.isFocused !== (currentScreenKey === routeKey)) {
         this.setState({
-          isFocused: screenName === routeName
+            isFocused: !this.isFocused,
+            focusedRouteKey: routeKey,
         })
+        this.isFocused = !this.isFocused
       }
     }
 
     render() {
-      return <WrappedComponent isFocused={this.state.isFocused} {...this.props} />
+      return (
+        <WrappedComponent
+          isFocused={this.state.isFocused}
+          focusedRouteKey={this.state.focusedRouteKey}
+          {...this.props}
+        />
+      )
     }
   }
+
+  WithNavigationFocus.displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
+
+  return WithNavigationFocus
 }
 
-module.exports = {
-  withNavigationFocus,
-  updateFocus,
-}
+export { getCurrentRouteKey, withNavigationFocus, updateFocus }

@@ -28,7 +28,7 @@ To see more of the `react-navigation-is-focused-hoc` in action, you can check ou
 ```javascript
 import React from 'react'
 import { StackNavigator } from 'react-navigation'
-import { updateFocus } from 'react-navigation-is-focused-hoc'
+import { updateFocus, getCurrentRouteKey } from 'react-navigation-is-focused-hoc'
 
 import MyScreenView from './screens/myScreenView'
 
@@ -45,6 +45,13 @@ export default class App extends React.Component {
     return (
       <AppNavigator
         onNavigationStateChange={(prevState, currentState) => {
+          // If you want to ignore the state changed from `DrawerNavigator`, use this:
+          /*
+            if (/^Drawer(Open|Close|Toggle)$/.test(getCurrentRouteKey(currentState)) === false) {
+              updateFocus(currentState)
+              return
+            }
+          */
           updateFocus(currentState)
         }}
       />
@@ -56,6 +63,7 @@ export default class App extends React.Component {
 **myScreenView.js**
 ```javascript
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   View,
   Text,
@@ -63,8 +71,40 @@ import {
 import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
 
 class MyScreenView extends React.Component {
+  static propTypes = {
+    isFocused: PropTypes.bool.isRequired,
+    focusedRouteKey: PropTypes.string.isRequired,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isFocused && nextProps.isFocused) {
+      // screen enter (refresh data, update ui ...)
+    }
+    if (this.props.isFocused && !nextProps.isFocused) {
+      // screen exit
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    // Update only once after the screen disappears
+    if (this.props.isFocused && !nextProps.isFocused) {
+      return true
+    }
+
+    // Don't update if the screen is not focused
+    if (!this.props.isFocused && !nextProps.isFocused) {
+      return false
+    }
+
+    // Update the screen if its re-enter
+    return !this.props.isFocused && nextProps.isFocused
+  }
 
   render() {
+    if (!this.props.isFocused /*&& this.props.focusedRouteKey.indexOf('Drawer') !== 0*/) {
+      return null
+    }
+
     return (
       <View>
         {this.props.isFocused
@@ -76,10 +116,9 @@ class MyScreenView extends React.Component {
   }
 }
 
-// second argument is the route name specified during StackNavigator initialization.
-// third argument is optional and is for defining your initial route
-// ie: export default withNavigationFocus(MyScreenView, 'MyScreenView', true)
-export default withNavigationFocus(MyScreenView, 'MyScreenView')
+// second argument is optional and is for defining your initial route
+// ie: export default withNavigationFocus(MyScreenView, true)
+export default withNavigationFocus(MyScreenView)
 ```
 
 

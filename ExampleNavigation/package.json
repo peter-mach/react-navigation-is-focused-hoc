@@ -1,15 +1,15 @@
 {
-	"name": "ExampleNavigation",
-	"version": "0.0.1",
-	"private": true,
+  "name": "ExampleNavigation",
+  "version": "0.0.2",
+  "private": true,
   "author": "Peter Machowski <peter@devnavy.com (http://devnavy.com)",
   "license": "MIT",
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start"
-	},
-	"dependencies": {
-		"react": "16.0.0-alpha.6",
-		"react-native": "0.44.0",
-		"react-navigation-is-focused-hoc": "file:../"
-	}
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.44.0",
+    "react-navigation-is-focused-hoc": "file:../"
+  }
 }

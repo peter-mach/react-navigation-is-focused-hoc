@@ -44,4 +44,4 @@ class Screen4 extends Component {
   }
 }
 
-export default withNavigationFocus(Screen4, 'Screen4')
+export default withNavigationFocus(Screen4)
