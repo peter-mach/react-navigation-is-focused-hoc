@@ -74,7 +74,7 @@ function _bind(WrappedComponent, isInitialRoute) {
           isFocused={this.state.isFocused}
           focusedRouteKey={this.state.focusedRouteKey}
           {...this.props}
-        />e
+        />
       )
     }
   }
