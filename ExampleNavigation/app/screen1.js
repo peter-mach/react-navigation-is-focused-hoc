@@ -9,7 +9,8 @@ import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
 
 import styles from './styles'
 
-class Screen1 extends Component {
+@withNavigationFocus(true)
+export default class Screen1 extends Component {
   static navigationOptions = {
     title: 'Screen 1',
   }
@@ -45,4 +46,4 @@ class Screen1 extends Component {
 }
 
 // second argument is true because this isInitialRoute
-export default withNavigationFocus(Screen1, true)
+// export default withNavigationFocus(Screen1, true)

@@ -17,8 +17,8 @@ function updateFocus(currentState) {
   subscribedComponents.forEach((f) => f(currentRouteKey))
 }
 
-function withNavigationFocus(WrappedComponent, isInitialRoute) {
 
+function _bind(WrappedComponent, isInitialRoute) {
   class WithNavigationFocus extends React.Component {
 
     static propTypes = {
@@ -74,7 +74,7 @@ function withNavigationFocus(WrappedComponent, isInitialRoute) {
           isFocused={this.state.isFocused}
           focusedRouteKey={this.state.focusedRouteKey}
           {...this.props}
-        />
+        />e
       )
     }
   }
@@ -82,6 +82,15 @@ function withNavigationFocus(WrappedComponent, isInitialRoute) {
   WithNavigationFocus.displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
   return WithNavigationFocus
+}
+
+function withNavigationFocus(WrappedComponent, isInitialRoute) {
+  if (typeof WrappedComponent === 'function') { // standard HOC
+    return _bind(WrappedComponent, isInitialRoute)
+  } else {// ES7 decorator
+    isInitialRoute = WrappedComponent
+    return (WrappedComponent) => _bind(WrappedComponent, isInitialRoute)
+  }
 }
 
 export { getCurrentRouteKey, withNavigationFocus, updateFocus }

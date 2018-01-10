@@ -9,7 +9,8 @@ import { withNavigationFocus } from 'react-navigation-is-focused-hoc'
 
 import styles from './styles'
 
-class Screen2 extends Component {
+@withNavigationFocus()
+export default class Screen2 extends Component {
   static navigationOptions = {
     title: 'Screen 2',
   }
@@ -44,4 +45,4 @@ class Screen2 extends Component {
   }
 }
 
-export default withNavigationFocus(Screen2)
+// export default withNavigationFocus(Screen2)
