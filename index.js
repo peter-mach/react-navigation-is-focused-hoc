@@ -12,9 +12,17 @@ function getCurrentRouteKey(navigationState) {
   return route.key
 }
 
-function updateFocus(currentState) {
-  const currentRouteKey = getCurrentRouteKey(currentState)
-  subscribedComponents.forEach((f) => f(currentRouteKey))
+function getRouteName(navigationState) {
+  if (!navigationState) return null
+  const route = navigationState.routes[navigationState.index]
+  if (route.routes) return getRouteName(route)
+  return route.routeName
+}
+
+function updateFocus(currentState, prevState) {
+  const currentRouteKey = getCurrentRouteKey(currentState);
+  const prevRouteName = getRouteName(prevState);
+  subscribedComponents.forEach((f) => f(currentRouteKey, prevRouteName))
 }
 
 
@@ -50,7 +58,7 @@ function _bind(WrappedComponent, isInitialRoute) {
       }
     }
 
-    _handleNavigationChange = (routeKey) => {
+    _handleNavigationChange = (routeKey, prevRouteName) => {
       // update state only when isFocused changes
       const currentScreenKey = this.props.navigation.state.key;
 
@@ -61,8 +69,9 @@ function _bind(WrappedComponent, isInitialRoute) {
       // immediately reflects any changes.
       if (this.isFocused !== (currentScreenKey === routeKey)) {
         this.setState({
-            isFocused: !this.isFocused,
-            focusedRouteKey: routeKey,
+          isFocused: !this.isFocused,
+          focusedRouteKey: routeKey,
+          prevRouteName: prevRouteName
         })
         this.isFocused = !this.isFocused
       }
@@ -73,6 +82,7 @@ function _bind(WrappedComponent, isInitialRoute) {
         <WrappedComponent
           isFocused={this.state.isFocused}
           focusedRouteKey={this.state.focusedRouteKey}
+          prevRouteName={this.state.prevRouteName}
           {...this.props}
         />
       )
